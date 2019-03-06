@@ -1,0 +1,43 @@
+{
+  "manifest_version": 2,
+
+  "name": "Listen to Variable and Copy Cookies",
+  "short_name": "Copy Cookies on Var",
+  "version": "0.2.0",
+
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": [
+        "utils/chrome.listen-event.js",
+        "utils/web.interval.js",
+        "content/chrome.message.ct.js",
+        "shared/enum.shared.js",
+        "content/init.ct.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "background": {
+    "scripts": [
+      "utils/chrome.listen.js",
+      "background/chrome.notify.bg.js",
+      "background/clipboard.bg.js",
+      "background/cookies.bg.js",
+      "background/chrome.message.bg.js",
+      "shared/enum.shared.js",
+      "background/api.bg.js",
+      "background/init.bg.js"
+    ]
+  },
+
+  "permissions": [
+    "<all_urls>",
+    "clipboardWrite",
+    "cookies",
+    "notifications"
+  ],
+
+  "web_accessible_resources": ["content/injected-script.js"]
+}

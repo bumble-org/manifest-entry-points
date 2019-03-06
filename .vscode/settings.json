@@ -1,0 +1,8 @@
+{
+    "jest.pathToJest": "yarn test",
+    "spellright.language": [],
+    "spellright.documentTypes": [
+        "latex",
+        "plaintext"
+    ]
+}
