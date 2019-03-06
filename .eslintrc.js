@@ -1,7 +1,7 @@
 module.exports = {
   env: {
     // browser: true,
-    es6: true,
+    es6: true
   },
   extends: 'eslint:recommended',
   globals: {
@@ -10,7 +10,7 @@ module.exports = {
   },
   parserOptions: {
     ecmaVersion: 2018,
-    sourceType: 'module',
+    sourceType: 'module'
   },
   rules: {
     'comma-dangle': [
@@ -20,11 +20,19 @@ module.exports = {
         objects: 'always-multiline',
         imports: 'always-multiline',
         exports: 'always-multiline',
-        functions: 'always-multiline',
-      },
+        functions: 'always-multiline'
+      }
     ],
     'no-console': 'off',
     quotes: ['warn', 'single'],
     semi: ['warn', 'never'],
-  },
+    'no-unused-vars': [
+      'error',
+      {
+        vars: 'all',
+        args: 'after-used',
+        ignoreRestSiblings: true
+      }
+    ]
+  }
 }

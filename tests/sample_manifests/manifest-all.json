@@ -13,10 +13,6 @@
   "background": {
     "scripts": [
       "background/chrome.message.bg.js",
-      "utils/chrome.listen.js",
-      "utils/chrome.storage.js",
-      "background/state.bg.js",
-      "background/data.api.bg.js",
       "background/init.bg.js"
     ],
     "matches": ["https://www.youtube.com/upload"],
@@ -26,16 +22,7 @@
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/upload"],
-      "js": [
-        "utils/chrome.listen-event.js",
-        "utils/chrome.storage.js",
-        "content/chrome.message.ct.js",
-        "utils/web.interval.js",
-        "content/state.ct.js",
-        "content/actions.ct.js",
-        "content/listeners.ct.js",
-        "content/init.ct.js"
-      ],
+      "js": ["utils/web.interval.js", "content/state.ct.js"],
       "css": ["content/styles.ct.css"],
       "run_at": "document_idle"
     }
