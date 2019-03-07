@@ -10,7 +10,7 @@
     "@sucrase/jest-plugin": "^2.0.0",
     "eslint": "^5.11.0",
     "jest": "^24.1.0",
-    "rollup": "^0.68.0",
+    "rollup": "^1.4.1",
     "sucrase": "^3.9.5"
   },
   "scripts": {
