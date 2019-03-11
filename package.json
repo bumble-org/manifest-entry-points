@@ -1,6 +1,6 @@
 {
   "name": "@bumble/manifest-entry-points",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Derive Chrome extension entry points from the manifest.",
   "main": "build/bundle-cjs.js",
   "module": "build/bundle-esm.js",
