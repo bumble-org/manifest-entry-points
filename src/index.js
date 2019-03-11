@@ -1,31 +1,33 @@
-export const deriveEntries = ({
-  manifest_version,
-  name,
-  version,
-  description,
-  author,
-  short_name,
-  permissions,
-  content_security_policy,
-  ...manifest
-}) => {
+import dedupe from 'dedupe'
+
+export const deriveEntries = (
+  {
+    manifest_version,
+    name,
+    version,
+    description,
+    author,
+    short_name,
+    permissions,
+    content_security_policy,
+    ...manifest
+  },
+  predObj = {
+    js: s => /\.js$/.test(s),
+    css: s => /\.css$/.test(s),
+    html: s => /\.html$/.test(s),
+    img: s => /\.png$/.test(s),
+    filter: v =>
+      typeof v === 'string' &&
+      v.includes('.') &&
+      !v.includes('*') &&
+      !/^https?:/.test(v),
+  },
+) => {
   const values = flattenObject(manifest)
-  const strings = values
-    .filter(v => typeof v === 'string')
-    .filter(s => !/^http/.test(s)) //skips websites
-    .filter(s => !s.includes('*')) //skips globs
+  const unique = dedupe(values)
 
-  const js = strings.filter(s => /\.js$/.test(s))
-  const css = strings.filter(s => /\.css$/.test(s))
-  const html = strings.filter(s => /\.html$/.test(s))
-  const img = strings.filter(s => /\.png$/.test(s))
-
-  return {
-    js,
-    css,
-    html,
-    img,
-  }
+  return siftByPredObj(predObj, unique)
 }
 
 export const flattenObject = obj =>
@@ -36,3 +38,28 @@ export const flattenObject = obj =>
       return [...flattenObject(objValue), ...primitivesArray]
     }
   }, [])
+
+export const siftByPredObj = (
+  { filter = () => true, ...predObj },
+  values,
+) => {
+  const filtered = values.filter(filter)
+  const rejected = values.filter(v => !filter(v))
+
+  const [sifted, remainder] = Object.entries(predObj).reduce(
+    ([resultObj, remainingValues], [key, predFn]) => [
+      {
+        ...resultObj,
+        [key]: remainingValues.filter(v => predFn(v)),
+      },
+      remainingValues.filter(v => !predFn(v)),
+    ],
+    [{}, filtered],
+  )
+
+  return {
+    ...sifted,
+    rejected,
+    remainder,
+  }
+}
