@@ -1,10 +1,11 @@
 {
-  "name": "@bumble/entry-points",
+  "name": "@bumble/manifest-entry-points",
   "version": "0.1.0",
-  "description": "Derive a Chrome extension entry points from its manifest.",
+  "description": "Derive Chrome extension entry points from the manifest.",
   "main": "build/bundle-cjs.js",
   "module": "build/bundle-esm.js",
   "author": "Jack and Amy Steam <jacksteamdev@gmail.com>",
+  "repository": "bumble-org/manifest-entry-points",
   "license": "MIT",
   "devDependencies": {
     "@sucrase/jest-plugin": "^2.0.0",
@@ -32,5 +33,7 @@
   "files": [
     "build"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "dedupe": "^3.0.1"
+  }
 }
