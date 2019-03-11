@@ -1,1 +1,3 @@
-# Bumble entry points
+# @bumble/manifest-entry-points
+
+WIP
