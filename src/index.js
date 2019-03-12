@@ -12,22 +12,12 @@ export const deriveEntries = (
     content_security_policy,
     ...manifest
   },
-  predObj = {
-    js: s => /\.js$/.test(s),
-    css: s => /\.css$/.test(s),
-    html: s => /\.html$/.test(s),
-    img: s => /\.png$/.test(s),
-    filter: v =>
-      typeof v === 'string' &&
-      v.includes('.') &&
-      !v.includes('*') &&
-      !/^https?:/.test(v),
-  },
+  options,
 ) => {
   const values = flattenObject(manifest)
   const unique = dedupe(values)
 
-  return siftByPredObj(predObj, unique)
+  return siftByPredObj(options, unique)
 }
 
 export const flattenObject = obj =>
@@ -40,7 +30,7 @@ export const flattenObject = obj =>
   }, [])
 
 export const siftByPredObj = (
-  { filter = () => true, ...predObj },
+  { filter = () => true, transform = x => x, ...predObj },
   values,
 ) => {
   const filtered = values.filter(filter)
@@ -50,7 +40,9 @@ export const siftByPredObj = (
     ([resultObj, remainingValues], [key, predFn]) => [
       {
         ...resultObj,
-        [key]: remainingValues.filter(v => predFn(v)),
+        [key]: remainingValues
+          .filter(v => predFn(v))
+          .map(transform),
       },
       remainingValues.filter(v => !predFn(v)),
     ],

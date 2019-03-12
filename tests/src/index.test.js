@@ -4,8 +4,20 @@ import { siftByPredObj } from '../../src/index'
 import manifest from '../sample_manifests/manifest-all.json'
 import manifestTiny from '../sample_manifests/manifest-1.json'
 
+const predObj = {
+  js: s => /\.js$/.test(s),
+  css: s => /\.css$/.test(s),
+  html: s => /\.html$/.test(s),
+  img: s => /\.png$/.test(s),
+  filter: v =>
+    typeof v === 'string' &&
+    v.includes('.') &&
+    !v.includes('*') &&
+    !/^https?:/.test(v),
+}
+
 describe('deriveEntries', () => {
-  const result = deriveEntries(manifest)
+  const result = deriveEntries(manifest, predObj)
 
   test('returns correct api', () => {
     expect(result.js).toBeDefined()
@@ -57,18 +69,6 @@ describe('flattenObject', () => {
 
 describe('siftByPredObj', () => {
   test('works with default predObj', () => {
-    const predObj = {
-      js: s => /\.js$/.test(s),
-      css: s => /\.css$/.test(s),
-      html: s => /\.html$/.test(s),
-      img: s => /\.png$/.test(s),
-      filter: v =>
-        typeof v === 'string' &&
-        v.includes('.') &&
-        !v.includes('*') &&
-        !/^https?:/.test(v),
-    }
-
     const strings = flattenObject(manifestTiny)
     const result = siftByPredObj(predObj, strings)
 
